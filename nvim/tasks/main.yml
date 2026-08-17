@@ -1,0 +1,16 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for nvim
+- name: Install nvim package
+  community.general.pacman:
+    name: 
+      - nvim
+      - lazygit
+    state: installed
+
+- name: Clone custom Kickstart nvim config repo
+  become_user: "{{ user }}"
+  ansible.builtin.git:
+    repo: "{{ repo_link }}"
+    clone: true
+    dest: '~/.config/nvim'

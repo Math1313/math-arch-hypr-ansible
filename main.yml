@@ -1,0 +1,60 @@
+---
+- name: Configure Arch-Math
+  become: true
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/packages.yml
+
+    # Edit this file to match desire configuration
+    - vars/git.yml
+
+    - vars/optional_packages.yml
+
+  tasks:
+    - name: Install required packages
+      community.general.pacman:
+        name: "{{ item }}"
+        state: installed
+      with_items: "{{ packages }}"
+
+    - name: Installer Zen Browser
+      become_user: "{{ user }}"
+      ansible.builtin.shell: |
+        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | $SHELL
+      args:
+        executable: /bin/bash
+
+
+    - name: Clone custom dotfiles repo
+      become_user: "{{ user }}"
+      ansible.builtin.git:
+        repo: "{{ dotfiles_repo }}"
+        clone: true
+        dest: '~/.config/custom_dotfiles'
+      
+    - name: Install yay AUR helper
+      ansible.builtin.include_role:
+        name: yay
+
+    - name: Install nvim
+      ansible.builtin.include_role:
+        name: nvim
+      vars:
+        # Link of the repo with the nvim config
+        repo_link: "{{ nvim_repo }}"
+
+    - name: Install and configure Hyprland
+      ansible.builtin.include_role:
+        name: hyprland
+
+    - name: Install and configure login manager
+      ansible.builtin.include_role:
+        name: login-manager
+
+    - name: Install optional packages
+      community.general.pacman:
+        name: "{{ item }}"
+        state: installed
+      with_items: "{{ optional_packages }}"
+

@@ -1,0 +1,6 @@
+# Requirements for installatin
+# To install requirements all in one:
+# ansible-galaxy collection install -r requirements.yml
+
+collections:
+  - name: kewlfft.aur

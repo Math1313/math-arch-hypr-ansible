@@ -1,0 +1,3 @@
+user: "math"
+nvim_repo: "https://github.com/Math1313/math.nvim.git"
+dotfiles_repo: "https://github.com/Math1313/math-hypr-dotfiles.git"

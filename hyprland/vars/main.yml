@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for hyprland
+
+repos:
+  - rust
+  - cargo
+  - make
+  - uwsm
+  - hyprland
+  - brightnessctl
+  - waybar
+  - xdg-desktop-portal-hyprland
+  - wl-clipboard
+  - superfile
+  - hypridle
+  - hyprlock
+  - awww
+  - fuzzel
+

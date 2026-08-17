@@ -1,0 +1,49 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for hyprland
+#
+- name: Install pakages 
+  community.general.pacman:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ repos }}"
+
+- name: Copy hypr files in custom configuration
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "~/.config/custom_dotfiles/.config/hypr"
+#    src: "~/git/math-hypr-dotfiles/.config/hypr"
+    dest: "~/.config/"
+    mode: preserve
+
+- name: Reload Hyprland configuration
+  become_user: "{{ user }}"
+  ansible.builtin.command:
+    cmd: hyprctl reload
+
+- name: Enable hypridle service
+  become_user: "{{ user }}"
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: hypridle
+    scope: user
+    state: started
+
+- name: Install and build Wallust
+  ansible.builtin.include_tasks:
+    file: wallust.yml
+
+- name: Copy wallpapers to local directory 
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "~/.config/custom_dotfiles/wallpapers"
+    dest: "~/Images/"
+    mode: preserve
+
+- name: Copy fuzzel script
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "~/.config/custom_dotfiles/.config/fuzzel"
+#    src: "~/git/math-hypr-dotfiles/.config/fuzzel/theme-switcher.sh"
+    dest: "~/.config/fuzzel/"
+    mode: "0755"
