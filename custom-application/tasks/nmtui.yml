@@ -1,0 +1,26 @@
+---
+
+- name: Ensure user applications directory exists
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "~/.local/share/applications"
+    state: directory
+    mode: "0755"
+
+- name: Create NMTUI desktop launcher for Fuzzy
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    dest: "~/.local/share/applications/nmtui.desktop"
+    content: |
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=NMTUI (NetworkManager)
+      Comment=Gestion du réseau et du Wi-Fi
+      Exec=kitty --title NMTUI -e nmtui
+      Terminal=false
+      Categories=System;Network;
+      Keywords=wifi;network;internet;
+    mode: "0644"
+
+...
