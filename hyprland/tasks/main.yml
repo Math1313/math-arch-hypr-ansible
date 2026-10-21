@@ -11,7 +11,6 @@
 - name: Copy hypr files in custom configuration
   become_user: "{{ user }}"
   ansible.builtin.copy:
-#    src: "~/.config/custom_dotfiles/.config/hypr"
     src: "{{ dotfiles_folder}}/hypr"
     dest: "~/.config/"
     mode: preserve
@@ -56,17 +55,20 @@
   ansible.builtin.include_tasks:
     file: kitty.yml
 
+- name: Enable application dark theme
+  ansible.builtin.include_tasks:
+    file: dark_theme.yml
+
 - name: Copy wallpapers to local directory 
   become_user: "{{ user }}"
   ansible.builtin.copy:
-    src: "{{ dotfiles_folder }}/wallpapers"
+    src: "{{ dotfiles_folder }}/../wallpapers"
     dest: "~/Images/"
     mode: preserve
 
 - name: Copy fuzzel script
   become_user: "{{ user }}"
   ansible.builtin.copy:
-#    src: "~/.config/custom_dotfiles/.config/fuzzel"
     src: "{{ dotfiles_folder }}/fuzzel"
     dest: "~/.config/"
     mode: "0755"
