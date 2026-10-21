@@ -1,0 +1,23 @@
+---
+
+- name: Install dark theme packages 
+  community.general.pacman:
+    name: "{{ item }}"
+    state: present
+    executable: yay
+    extra_args: --builddir /var/cache/yay
+  with_items:
+    - nwg-look
+    - gnome-themes-extra
+
+- name: Enable Adwaita dark theme
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+
+- name: Set preferred theme to dark
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
