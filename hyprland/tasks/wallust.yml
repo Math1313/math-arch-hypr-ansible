@@ -23,3 +23,10 @@
     cmd: make install
     chdir: "/tmp/wallust"
     creates: "/usr/local/bin/wallust"
+
+- name: Copy wallust configuration file
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+#    src: "~/.config/custom_dotfiles/.config/hypr"
+    src: "{{ dotfiles_folder }}/wallust"
+    dest: "~/.config/"

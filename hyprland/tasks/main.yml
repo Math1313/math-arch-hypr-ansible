@@ -12,7 +12,7 @@
   become_user: "{{ user }}"
   ansible.builtin.copy:
 #    src: "~/.config/custom_dotfiles/.config/hypr"
-    src: "~/git/math-hypr-dotfiles/.config/hypr"
+    src: "{{ dotfiles_folder}}/hypr"
     dest: "~/.config/"
     mode: preserve
 
@@ -52,10 +52,14 @@
   ansible.builtin.include_tasks:
     file: fonts.yml
 
+- name: Import kitty configuration file
+  ansible.builtin.include_tasks:
+    file: kitty.yml
+
 - name: Copy wallpapers to local directory 
   become_user: "{{ user }}"
   ansible.builtin.copy:
-    src: "~/.config/custom_dotfiles/wallpapers"
+    src: "{{ dotfiles_folder }}/wallpapers"
     dest: "~/Images/"
     mode: preserve
 
@@ -63,6 +67,6 @@
   become_user: "{{ user }}"
   ansible.builtin.copy:
 #    src: "~/.config/custom_dotfiles/.config/fuzzel"
-    src: "~/git/math-hypr-dotfiles/.config/fuzzel/theme-switcher.sh"
+    src: "{{ dotfiles_folder }}/fuzzel"
     dest: "~/.config/"
     mode: "0755"
