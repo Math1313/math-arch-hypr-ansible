@@ -11,15 +11,30 @@
 - name: Copy hypr files in custom configuration
   become_user: "{{ user }}"
   ansible.builtin.copy:
-    src: "~/.config/custom_dotfiles/.config/hypr"
-#    src: "~/git/math-hypr-dotfiles/.config/hypr"
+#    src: "~/.config/custom_dotfiles/.config/hypr"
+    src: "~/git/math-hypr-dotfiles/.config/hypr"
     dest: "~/.config/"
     mode: preserve
 
+- name: Check if Hyprland is running
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.command:
+    cmd: hyprctl instances
+  register: hyprland_status
+  changed_when: false
+  failed_when: false
+
 - name: Reload Hyprland configuration
+  become: true
   become_user: "{{ user }}"
   ansible.builtin.command:
     cmd: hyprctl reload
+  when:
+    - hyprland_status.rc == 0
+    - hyprland_status.stdout | length > 0
+  changed_when: true
+  failed_when: false
 
 - name: Enable hypridle service
   become_user: "{{ user }}"
@@ -33,6 +48,10 @@
   ansible.builtin.include_tasks:
     file: wallust.yml
 
+- name: Install and build fonts
+  ansible.builtin.include_tasks:
+    file: fonts.yml
+
 - name: Copy wallpapers to local directory 
   become_user: "{{ user }}"
   ansible.builtin.copy:
@@ -43,7 +62,7 @@
 - name: Copy fuzzel script
   become_user: "{{ user }}"
   ansible.builtin.copy:
-    src: "~/.config/custom_dotfiles/.config/fuzzel"
-#    src: "~/git/math-hypr-dotfiles/.config/fuzzel/theme-switcher.sh"
-    dest: "~/.config/fuzzel/"
+#    src: "~/.config/custom_dotfiles/.config/fuzzel"
+    src: "~/git/math-hypr-dotfiles/.config/fuzzel/theme-switcher.sh"
+    dest: "~/.config/"
     mode: "0755"

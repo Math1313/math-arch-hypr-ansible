@@ -1,0 +1,9 @@
+
+---
+
+- name: Install fonts 
+  community.general.pacman:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ fonts }}"
+

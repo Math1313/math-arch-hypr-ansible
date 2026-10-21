@@ -17,4 +17,7 @@ repos:
   - hyprlock
   - awww
   - fuzzel
+  - kitty
 
+fonts:
+  - ttf-jetbrains-mono-nerd

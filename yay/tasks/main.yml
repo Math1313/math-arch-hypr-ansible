@@ -7,6 +7,7 @@
   community.general.pacman:
     name:
       - base-devel
+      - go
     state: present
 
 - name: Clone yay
@@ -15,9 +16,24 @@
     repo: https://aur.archlinux.org/yay.git
     dest: "/tmp/yay"
 
-- name: Compile and install yay
+- name: Compile yay
+  become: true
   become_user: "{{ user }}"
-  command: makepkg -si --noconfirm
-  args:
+  ansible.builtin.command: 
+    cmd: makepkg -s --noconfirm
     chdir: "/tmp/yay"
-    creates: /usr/bin/yay
+    creates: "/tmp/yay/yay-*.pkg.tar.zst"
+
+- name: Find compile package
+  ansible.builtin.find:
+    paths: "/tmp/yay"
+    patterns: "yay-*.pkg.tar.zst"
+    file_type: file
+  register: yay_packages
+
+- name: Install yay
+  become: true
+  community.general.pacman:
+    name: "{{ yay_packages.files | map(attribute='path') | list }}"
+    state: present
+  when: yay_packages.matched > 0
