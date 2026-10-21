@@ -1,0 +1,10 @@
+---
+
+- name: Copy kitty configuration file
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+#    src: "~/.config/custom_dotfiles/.config/hypr"
+    src: "{{ dotfiles_folder }}/kitty"
+    dest: "~/.config/"
+
+...
