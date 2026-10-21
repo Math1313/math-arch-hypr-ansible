@@ -37,3 +37,9 @@
     name: "{{ yay_packages.files | map(attribute='path') | list }}"
     state: present
   when: yay_packages.matched > 0
+
+- name: Create aur_builder user
+  ansible.builtin.include_tasks:
+    file: create_user.yml
+
+...

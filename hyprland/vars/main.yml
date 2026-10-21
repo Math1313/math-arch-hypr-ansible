@@ -18,6 +18,7 @@ repos:
   - awww
   - fuzzel
   - kitty
+  - fastfetch
 
 fonts:
   - ttf-jetbrains-mono-nerd
