@@ -19,6 +19,7 @@ repos:
   - fuzzel
   - kitty
   - fastfetch
+  - bluetui
 
 fonts:
   - ttf-jetbrains-mono-nerd
