@@ -10,6 +10,8 @@
 
 [] - Test Monique monitor manager
 
+[] - Edit workspace management
+
 [x] - Install dark theme in other application (gnome, adwaita theme)
 
 [] - Configure standby screen with tui application repos

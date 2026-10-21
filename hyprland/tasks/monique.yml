@@ -1,0 +1,31 @@
+---
+
+- name: Install Monique (Monitor manager)
+  kewlfft.aur.aur:
+    use: yay
+    state: present
+    name:
+      - monique
+  become: yes
+  become_user: aur_builder
+  register: monique_install
+  retries: 3
+  delay: 10
+  until: monique_install is succeeded
+  ignore_errors: yes
+
+- name: Enable Moniqued service
+  become_user: "{{ user }}"
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: moniqued
+    scope: user
+    state: started
+
+- name: Copy Monique dotfile
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "{{ dotfiles_folder }}/monique"
+    dest: "~/.config/"
+
+...

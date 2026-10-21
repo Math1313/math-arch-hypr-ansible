@@ -5,3 +5,7 @@
 - name: Create NMTUI application
   ansible.builtin.include_tasks:
     file: nmtui.yml
+
+- name: Create BLUETUI application
+  ansible.builtin.include_tasks:
+    file: bluetui.yml

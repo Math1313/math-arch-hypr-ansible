@@ -1,0 +1,27 @@
+
+---
+
+- name: Ensure user applications directory exists
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "~/.local/share/applications"
+    state: directory
+    mode: "0755"
+
+- name: Create BLUETUI desktop launcher for Fuzzy
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    dest: "~/.local/share/applications/bluetui.desktop"
+    content: |
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=BLUETUI (BluetoothCTL)
+      Comment=Gestion du bluetooth
+      Exec=kitty --title BLUETUI -e bluetui
+      Terminal=false
+      Categories=System;Bluetooth;
+      Keywords=bluetooth;connection;devices;
+    mode: "0644"
+
+...
