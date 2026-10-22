@@ -33,3 +33,9 @@
     path: "{{ item.path }}"
     mode: "0755"
   loop: "{{ waybar_media_scripts.files }}"
+
+- name: Make Waybar color script executable
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "~/.config/waybar/watch-colors.sh"
+    mode: "0755"
