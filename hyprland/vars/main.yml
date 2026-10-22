@@ -19,6 +19,8 @@ repos:
   - kitty
   - fastfetch
   - bluetui
+  - htop
+  - btop
   # Screenshot and area selection
   - grim
   - swappy
@@ -27,6 +29,7 @@ repos:
   - waybar
   - python-setuptools
   - pavucontrol
+  - inotify-tools
 
 fonts:
   - ttf-jetbrains-mono-nerd
