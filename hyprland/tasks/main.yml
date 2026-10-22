@@ -43,6 +43,10 @@
     scope: user
     state: started
 
+- name: Configure waybar
+  ansible.builtin.include_tasks:
+    file: waybar.yml
+
 - name: Install and config Monique
   ansible.builtin.include_tasks:
     file: monique.yml

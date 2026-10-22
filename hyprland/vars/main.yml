@@ -9,7 +9,6 @@ repos:
   - uwsm
   - hyprland
   - brightnessctl
-  - waybar
   - xdg-desktop-portal-hyprland
   - wl-clipboard
   - superfile
@@ -20,6 +19,14 @@ repos:
   - kitty
   - fastfetch
   - bluetui
+  # Screenshot and area selection
+  - grim
+  - swappy
+  - slurp
+  # waybar
+  - waybar
+  - python-setuptools
+  - pavucontrol
 
 fonts:
   - ttf-jetbrains-mono-nerd

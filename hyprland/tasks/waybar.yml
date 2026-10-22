@@ -1,0 +1,35 @@
+---
+
+- name: Install Zscroll (for animation of player)
+  kewlfft.aur.aur:
+    use: yay
+    state: present
+    name:
+      - zscroll-git
+  become: yes
+  become_user: aur_builder
+  register: zscroll_install
+  retries: 3
+  delay: 10
+  until: zscroll_install is succeeded
+  ignore_errors: yes
+
+- name: Copy waybar dotfile
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "{{ dotfiles_folder }}/waybar"
+    dest: "~/.config/"
+
+- name: Find Waybar media scripts
+  become_user: "{{ user }}"
+  ansible.builtin.find:
+    paths: "~/.config/waybar/custom_modules/media/"
+    file_type: file
+  register: waybar_media_scripts
+
+- name: Make Waybar media scripts executable
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0755"
+  loop: "{{ waybar_media_scripts.files }}"
