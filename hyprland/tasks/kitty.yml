@@ -6,4 +6,10 @@
     src: "{{ dotfiles_folder }}/kitty"
     dest: "~/.config/"
 
+- name: Copy zsh configuration file
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "{{ dotfiles_folder }}/../.zshrc"
+    dest: "~/"
+
 ...

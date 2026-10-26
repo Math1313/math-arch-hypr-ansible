@@ -1,15 +1,5 @@
 ---
 
-- name: Install dark theme packages 
-  community.general.pacman:
-    name: "{{ item }}"
-    state: present
-    executable: yay
-    extra_args: --builddir /var/cache/yay
-  with_items:
-    - nwg-look
-    - gnome-themes-extra
-
 - name: Enable Adwaita dark theme
   become: true
   become_user: "{{ user }}"
