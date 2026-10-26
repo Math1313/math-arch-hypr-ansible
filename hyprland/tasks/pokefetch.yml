@@ -1,0 +1,60 @@
+---
+
+- name: Install pokeget
+  kewlfft.aur.aur:
+    use: yay
+    state: present
+    name:
+      - pokeget
+  become: yes
+  become_user: aur_builder
+  register: pokeget_install
+  retries: 3
+  delay: 10
+  until: pokeget_install is succeeded
+  ignore_errors: yes
+
+- name: Créer le dossier des scripts Hyprland
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "/home/{{ user }}/.config/hypr/scripts"
+    state: directory
+
+- name: Télécharger pokemon.sh dans la config Hyprland
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/Discomanfulanito/pokefetch/main/pokemon.sh"
+    dest: "/home/{{ user }}/.config/hypr/scripts/pokemon.sh"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0755"
+    force: true
+
+
+- name: Alias fastfetch -> pokefetch (zsh et bash)
+  become_user: "{{ user }}"
+  ansible.builtin.lineinfile:
+    path: "~/{{ item }}"
+    line: "alias fastfetch='bash ~/.config/hypr/scripts/pokemon.sh'"
+    create: true
+    mode: "0644"
+  loop:
+    - .zshrc
+    - .bashrc
+
+- name: Définir ma liste de Pokémon dans pokemon.sh
+  ansible.builtin.replace:
+    path: "/home/{{ user }}/.config/hypr/scripts/pokemon.sh"
+    regexp: '^POKEMON_LIST=\([^)]*\)'
+    replace: |-
+      POKEMON_LIST=(
+      {% for p in pokefetch_pokemon %}
+        "{{ p }}"
+      {% endfor %}
+      )
+  vars:
+    pokefetch_pokemon:
+      - squirtle
+      - blastoise
+      - vaporeon
+      - sylveon
+      - deoxys

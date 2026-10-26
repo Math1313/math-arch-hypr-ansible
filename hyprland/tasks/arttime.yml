@@ -1,0 +1,10 @@
+---
+
+- name: Install arttime
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: |
+    url="https://gist.githubusercontent.com/poetaman/bdc598ee607e9767fe33da50e993c650/raw/d0146d258a30daacb9aee51deca9410d106e4237/arttime_online_installer.sh"
+    zsh -c "$(curl -fsSL "$url" || wget -qO- "$url")"
+  args:
+    executable: /bin/bash

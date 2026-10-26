@@ -8,12 +8,36 @@
     state: installed
   with_items: "{{ repos }}"
 
+- name: Install and configure arttime
+  ansible.builtin.include_tasks:
+    file: arttime.yml
+
+- name: Copy btop configuration files
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: "{{ dotfiles_folder }}/btop"
+    dest: "~/.config/"
+
 - name: Copy hypr files in custom configuration
   become_user: "{{ user }}"
   ansible.builtin.copy:
     src: "{{ dotfiles_folder}}/hypr"
     dest: "~/.config/"
     mode: preserve
+
+- name: Find Hyprland custom scripts
+  become_user: "{{ user }}"
+  ansible.builtin.find:
+    paths: "~/.config/hypr/scripts/"
+    file_type: file
+  register: hypr_custom_scripts
+
+- name: Make Hyprland custom scripts executable
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0755"
+  loop: "{{ hypr_custom_scripts.files }}"
 
 - name: Check if Hyprland is running
   become: true
@@ -62,6 +86,10 @@
 - name: Import kitty configuration file
   ansible.builtin.include_tasks:
     file: kitty.yml
+
+- name: Configure pokefetch
+  ansible.builtin.include_tasks:
+    file: pokefetch.yml
 
 - name: Enable application dark theme
   ansible.builtin.include_tasks:

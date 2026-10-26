@@ -19,8 +19,8 @@ repos:
   - kitty
   - fastfetch
   - bluetui
-  - htop
   - btop
+  - zsh
   # Screenshot and area selection
   - grim
   - swappy
@@ -30,6 +30,9 @@ repos:
   - python-setuptools
   - pavucontrol
   - inotify-tools
+  # gnome-theme
+  - nwg-look
+  - gnome-themes-extra
 
 fonts:
   - ttf-jetbrains-mono-nerd
