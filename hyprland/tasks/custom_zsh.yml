@@ -1,0 +1,15 @@
+---
+
+- name: Install Easy ZSH Config
+  kewlfft.aur.aur:
+    use: yay
+    state: present
+    name:
+      - easy-zsh-config
+  become: yes
+  become_user: aur_builder
+  register: zsh_install
+  retries: 3
+  delay: 10
+  until: zsh_install is succeeded
+  ignore_errors: yes

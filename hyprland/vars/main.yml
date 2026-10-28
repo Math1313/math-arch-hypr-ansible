@@ -21,6 +21,7 @@ repos:
   - bluetui
   - btop
   - zsh
+  - cups
   # Screenshot and area selection
   - grim
   - swappy
@@ -37,5 +38,5 @@ repos:
 fonts:
   - ttf-jetbrains-mono-nerd
 
-dotfiles_folder: "~/git/math-hypr-dotfiles/.config" # Test folder
-# dotfiles_folder: "~/.config/custom_dotfiles/.config/hypr" # Good folder
+# dotfiles_folder: "~/git/math-hypr-dotfiles/.config" # Test folder
+dotfiles_folder: "~/.config/custom_dotfiles/.config/hypr" # Good folder

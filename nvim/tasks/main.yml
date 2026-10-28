@@ -7,6 +7,9 @@
       - nvim
       - lazygit
       - tree-sitter
+      - tree-sitter-cli
+      - nodejs
+      - npm
     state: installed
 
 - name: Clone custom Kickstart nvim config repo

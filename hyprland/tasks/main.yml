@@ -95,6 +95,10 @@
   ansible.builtin.include_tasks:
     file: dark_theme.yml
 
+- name: Configure ZSH
+  ansible.builtin.include_tasks:
+    file: custom_zsh.yml
+
 - name: Copy wallpapers to local directory 
   become_user: "{{ user }}"
   ansible.builtin.copy:
